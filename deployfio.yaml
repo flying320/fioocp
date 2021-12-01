@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: ddfio
+spec:
+  containers:
+    - name: ddfio
+      image: docker.io/ddanner123/ddfio
+      command: [ "/bin/sh", "-c", "--" ]
+      args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; /fioconf/runfio.sh" ]
+      volumeMounts:
+        - name: fiodata
+          mountPath: "/fiodata"
+        - name: fioconf
+          mountPath: "/fioconf"
+  volumes:
+    - name: fiodata
+      persistentVolumeClaim:
+        claimName: fiodatapvc
+    - name: fioconf
+      persistentVolumeClaim:
+        claimName: fioconfpvc      
