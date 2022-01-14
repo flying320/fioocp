@@ -6,6 +6,8 @@ spec:
   containers:
     - name: ddfio
       image: docker.io/ddanner123/ddfio
+      ports:
+        - containerPort: 22
       command: [ "/bin/sh", "-c", "--" ]
       args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; /fioconf/runfio.sh" ]
       volumeMounts:
