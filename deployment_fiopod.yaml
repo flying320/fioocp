@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fiodatapvc
+  namespace: ddannerproject
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 55Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fioconfpvc
+  namespace: ddannerproject
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ddfiodeployment
+  namespace: ddannerproject
+spec:
+  selector:
+    matchLabels:
+      app: ddfio
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ddfio
+    spec:
+      containers:
+        - name: ddfio
+          image: docker.io/ddanner123/ddfio
+          ports:
+            - containerPort: 22
+          command: [ "/bin/sh", "-c", "--" ]
+          args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; /fioconf/runfio.sh" ]
+          volumeMounts:
+            - name: fiodata
+              mountPath: "/fiodata"
+            - name: fioconf
+              mountPath: "/fioconf"
+      volumes:
+        - name: fiodata
+          persistentVolumeClaim:
+            claimName: fiodatapvc
+        - name: fioconf
+          persistentVolumeClaim:
+            claimName: fioconfpvc
+
