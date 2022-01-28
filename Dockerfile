@@ -21,5 +21,5 @@ COPY id_rsa.pub /home/ddanner/.ssh/authoriyed_keys
 EXPOSE 22
 CMD ["/etc/init.d/sshd start"]
 
-COPY runfio.sh /home/ddanner/runfio.sh 
+COPY runfio.sh /bin/runfio.sh 
 WORKDIR /fioconf
