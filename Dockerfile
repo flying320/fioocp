@@ -18,9 +18,8 @@ RUN mkdir -m 700 /home/ddanner/.ssh
 # Copy public key
 COPY id_rsa.pub /home/ddanner/.ssh/authoriyed_keys
 
-
 EXPOSE 22
-
 CMD ["/etc/init.d/sshd start"]
 
+COPY runfio.sh /home/ddanner/runfio.sh 
 WORKDIR /fioconf

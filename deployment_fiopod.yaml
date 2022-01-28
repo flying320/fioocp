@@ -45,7 +45,7 @@ spec:
           ports:
             - containerPort: 22
           command: [ "/bin/sh", "-c", "--" ]
-          args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; /fioconf/runfio.sh" ]
+          args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; cp -r /home/ddanner/runfio.sh /fioconf/runfio.sh ; /fioconf/runfio.sh " ]
           volumeMounts:
             - name: fiodata
               mountPath: "/fiodata"
