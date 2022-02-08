@@ -43,9 +43,9 @@ spec:
         - name: ddfio
           image: docker.io/ddanner123/ddfio
           ports:
-            - containerPort: 22
+            - containerPort: 2222
           command: [ "/bin/sh", "-c", "--" ]
-          args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out; cp -r /bin/runfio.sh /fioconf/runfio.sh ; /fioconf/runfio.sh " ]
+          args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out ; /usr/sbin/sshd ; cp -r /bin/runfio.sh /fioconf/runfio.sh ; /fioconf/runfio.sh " ]
           volumeMounts:
             - name: fiodata
               mountPath: "/fiodata"
