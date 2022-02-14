@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fiodatapvc
+  name: fiodata3pvc
   namespace: ddannerdemo
 spec:
   accessModes:
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fioconfpvc
+  name: fioconf3pvc
   namespace: ddannerdemo
 spec:
   accessModes:
@@ -27,33 +27,33 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ddfiodeployment
+  name: ddfio3deployment
   namespace: ddannerdemo
 spec:
   selector:
     matchLabels:
-      app: ddfio
+      app: ddfio3
   replicas: 1
   template:
     metadata:
       labels:
-        app: ddfio
+        app: ddfio3
     spec:
       containers:
-        - name: ddfio
+        - name: ddfio3
           labels:
-            app: ddfio
+            app: ddfio3
           image: docker.io/ddanner123/ddfio
           ports:
             - containerPort: 2222
           command: [ "/bin/sh", "-c", "--" ]
           args: [ "echo --- NEW START $(hostname) --- >> /fiodata/datastream.out ; /usr/sbin/sshd ; cp -r /bin/runfio.sh /fioconf/runfio.sh ; /fioconf/runfio.sh " ]
           volumeMounts:
-            - name: fiodata
+            - name: fiodata3
               mountPath: "/fiodata"
-            - name: fioconf
+            - name: fioconf3
               mountPath: "/fioconf"
-      Nodename: compute-0.escc.frankfurt.de.ibm.com 
+      nodeName: "compute-2.escc.frankfurt.de.ibm.com"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -72,24 +72,24 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - ddfio
+                  - ddfio3
             topologyKey: kubernetes.io/hostname
       volumes:
-        - name: fiodata
+        - name: fiodata3
           persistentVolumeClaim:
-            claimName: fiodatapvc
-        - name: fioconf
+            claimName: fiodata3pvc
+        - name: fioconf3
           persistentVolumeClaim:
-            claimName: fioconfpvc
+            claimName: fioconf3pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ddfioservice
+  name: ddfio3service
   namespace: ddannerdemo
 spec:
   selector:
-    app: ddfio
+    app: ddfio3
   ports:
     - protocol: TCP
       port: 2222

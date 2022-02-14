@@ -19,7 +19,7 @@ do
                 mv $file /fioconf/jobs/inprogress
                 cd /fioconf/jobs/inprogress
 
-                /usr/bin/fio --output=/fioconf/results/${file}.${DAT}.json --output-format=json --size=10G --filename=${TESTFILE}  $file
+                /usr/bin/fio --output=/fioconf/results/${file}.${DAT}.json --output-format=json $file
                 sleep 60
 
                 mv $file /fioconf/jobs/done

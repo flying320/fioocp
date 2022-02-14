@@ -16,7 +16,7 @@ RUN adduser -h /home/ddanner -s /bin/sh -D ddanner
 RUN mkdir -m 700 /home/ddanner/.ssh  
 
 # Copy public key
-COPY id_rsa.pub /home/ddanner/.ssh/authoriyed_keys
+#COPY id_rsa.pub /home/ddanner/.ssh/authoriyed_keys
 COPY sshd_config /etc/ssh/sshd_config
 
 # Generate SSH Hoskeys 
